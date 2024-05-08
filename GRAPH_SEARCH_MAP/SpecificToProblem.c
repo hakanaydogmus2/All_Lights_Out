@@ -23,7 +23,7 @@ State* Create_State()
    
     for(int i = 0; i<4; i++){
         for(int j = 0; j<4; j++){
-            state->Lights[i][j] = rand()%2;
+            state->Lights[i][j] = rand() % 2;
         }
     }
     printf("Initial State: \n");
@@ -190,6 +190,7 @@ float Compute_Heuristic_Function(const State *const state, const State *const go
 int Goal_Test(const State *const state, const State *const goal_state)
 {
 	if(PREDETERMINED_GOAL_STATE)	
+        
 		return Compare_States(state, goal_state); 
 	else
 		return 1;
@@ -226,7 +227,20 @@ void StateValueChanger(State *state, int i, int j){
             state->Lights[i][j] = false;
         }
     }
+    printf("Goal State: \n");
+    Print_State(state);
     return state;
+ }
+ int CountPassiveLights(const State *const state){
+     int count = 0;
+     for(int i = 0; i<4; i++){
+        for(int j = 0; j<4; j++){
+            if(state->Lights[i][j] == 0){
+                count++;
+            }
+        }
+    }
+    return count;
  }
 // ==================== WRITE YOUR OPTIONAL FUNCTIONS (IF REQUIRED) ==========================
  

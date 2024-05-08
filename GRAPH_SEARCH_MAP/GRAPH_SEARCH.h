@@ -28,7 +28,7 @@ void Print_Action(const enum ACTIONS action);
 int Result(const State *const parent_state, const enum ACTIONS action, Transition_Model *const trans_model);
 float Compute_Heuristic_Function(const State *const state, const State *const goal); 
 int Goal_Test(const State *const state, const State *const goal_state);
-
+int CountPassiveLights(const State *const state);
 // ======= YOU DO NOT NEED TO CHANGE THIS COMPULSORY DECLARATIONS EXCEPT INSERTION OF THE GENERALIZED A* ALGORITHM==============
 Node* First_GoalTest_Search_TREE(const enum METHODS method, Node *const root, State *const goal_state);
 Node* First_InsertFrontier_Search_TREE(const enum METHODS method, Node *const root, State *const goal_state, float alpha); // Update for THE GENERALIZED A* 

@@ -11,7 +11,7 @@
 int main()
 {	
     Node root, *goal;
-    State *goal_state = NULL;
+    State *goal_state = createGoalState();
     enum METHODS method;
     int Max_Level, level;
 	float alpha;
