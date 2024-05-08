@@ -47,8 +47,7 @@ int main()
     
     if(PREDETERMINED_GOAL_STATE)  // User will determine the goal state if it is true
     {
-	    printf("======== SELECTION OF GOAL STATE =============== \n"); 
-	    goal_state = Create_State();
+	    goal_state = createGoalState();
     }
     
     if(method==GreedySearch || method==AStarSearch || method==GeneralizedAStarSearch){

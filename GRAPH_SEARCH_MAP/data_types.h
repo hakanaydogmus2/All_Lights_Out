@@ -13,12 +13,6 @@ typedef bool Grid[GRID_ROWS][GRID_COLS];
 // ====== WRITE YOUR COMPULSORY (BUT SPECIFIC TO THE PROBLEM) DATA TYPES =======
 
 
-struct Coordinate
-{
-    int x;
-    int y;
-};
-
 enum ACTIONS // All possible actions
 {
     

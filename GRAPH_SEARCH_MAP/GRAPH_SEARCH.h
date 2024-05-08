@@ -4,11 +4,11 @@
 #include "data_types.h"
 
 // ==================== WRITE YOUR OPTIONAL COMMANDS ===========================
-#define CITY_NUMBER  20
+//#define CITY_NUMBER  20
 
 // ========  YOUR COMPULSORY (BUT SPECIFIC TO THE PROBLEM) COMMANDS ============ 
 #define PREDETERMINED_GOAL_STATE  1 // User will initially determine the goal state if it is true (1)
-#define ACTIONS_NUMBER  20          // The number of all possible actions
+#define ACTIONS_NUMBER  16          // The number of all possible actions
 #define MAX_SEARCHED_NODE 100000000 // exit from the search process if it is exceeded  
 
 // ================== YOU DO NOT NEED TO CHANGE THIS PART ======================
@@ -20,6 +20,9 @@
 
 // =========  YOUR COMPULSORY (BUT SPECIFIC TO THE PROBLEM) DECLARATIONS =======
 State* Create_State();
+void ApplyAction(const enum ACTIONS action, State *state);
+void StateValueChanger(State *state, int i, int j);
+State* createGoalState();
 void Print_State(const State *const state);
 void Print_Action(const enum ACTIONS action);
 int Result(const State *const parent_state, const enum ACTIONS action, Transition_Model *const trans_model);

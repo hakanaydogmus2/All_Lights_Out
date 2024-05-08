@@ -10,25 +10,25 @@
 #include "data_types.h"
 #include <stdio.h>
 #include <stdlib.h>
+#include <time.h>
+
 
 //______________________________________________________________________________
 State* Create_State()
 {
+    srand(time(NULL));
 	State *state = (State*)malloc(sizeof(State));
     if(state==NULL)
     	Warning_Memory_Allocation(); 
    
-   	for(state->city=Arad; state->city<=Zerind; state->city++){        
-    	printf("%d --> ", state->city);
-        Print_State(state);
-        printf("\n");
-   	}        
-   
-   	do{ 
-    	printf("Enter the code of the state: ");
-        scanf("%d", &state->city);
-   	}while(state->city<0 && state->city>=CITY_NUMBER);
-	       
+    for(int i = 0; i<4; i++){
+        for(int j = 0; j<4; j++){
+            state->Lights[i][j] = rand()%2;
+        }
+    }
+    printf("Initial State: \n");
+    Print_State(state);
+   	       
     return state;    
 }
 
@@ -123,10 +123,11 @@ void Print_Action(const enum ACTIONS action)
 int Result(const State *const parent_state, const enum ACTIONS action, Transition_Model *const trans_model)
 {
     State new_state;
-	ApplyAction(action, parent_state);
-    new_state = *parent_state;
+    State temp_state = *parent_state;
+	ApplyAction(action, &temp_state);
+    new_state = temp_state;
 	     //    A    B    C    D    E    F    G    H    I    L    M    N    O    P    R    S    T    U    V    Z       
-	 
+	           
          /*if(PATH_COSTS[parent_state->Lights[action]<=0) 
               return FALSE;
          else{
@@ -138,7 +139,7 @@ int Result(const State *const parent_state, const enum ACTIONS action, Transitio
     trans_model->new_state = new_state;
     trans_model->step_cost = 1;
 
-    
+    return 1;
 
                                                      
 }
@@ -146,6 +147,17 @@ int Result(const State *const parent_state, const enum ACTIONS action, Transitio
 //______________________________________________________________________________
 float Compute_Heuristic_Function(const State *const state, const State *const goal)
 {
+    float count = 0.0;
+    for(int i = 0; i<4; i++){
+        for(int j = 0; j<4; j++){
+            if(state->Lights[i][j] != goal->Lights[i][j]){
+                count++;
+            }
+        }
+    }
+    return count;
+
+      /*
       const float SLD[CITY_NUMBER][CITY_NUMBER] =   // CALCULATED ROUGHLY!!!
         {   {  0, 366, 300, 220, 590, 235, 430, 535, 420, 168, 225, 355, 110, 290, 185, 130, 105, 435, 470,  67},  // Arad
             {366,   0, 160, 242, 161, 176,  77, 151, 226, 244, 241, 234, 380, 100, 193, 253, 329,  80, 199, 374},  // Bucharest
@@ -170,7 +182,8 @@ float Compute_Heuristic_Function(const State *const state, const State *const go
 		};
 	     //    A    B    C    D    E    F    G    H    I    L    M    N    O    P    R    S    T    U    V    Z   
          
-        return SLD[state->city][goal->city];   
+        return SLD[state->city][goal->city];
+        */   
 }
 
 //_______________ Update if your goal state is not determined initially ___________________________________
@@ -183,11 +196,37 @@ int Goal_Test(const State *const state, const State *const goal_state)
 }
 
 void StateValueChanger(State *state, int i, int j){
-    if(state->Lights[i][j] == 0)
-        state->Lights[i][j] = 1;
-    else
-        state->Lights[i][j] = 0;
+   
+  state->Lights[i][j] = !state->Lights[i][j];
+  if (i > 0) {
+    state->Lights[i - 1][j] = !state->Lights[i - 1][j];
+  }
+
+  if (i < 3) {
+    state->Lights[i + 1][j] = !state->Lights[i + 1][j];
+  }
+
+  if (j > 0) {
+    state->Lights[i][j - 1] = !state->Lights[i][j - 1];
+  }
+  if (j < 3) {
+    state->Lights[i][j + 1] = !state->Lights[i][j + 1];
+  }
 }
+ State* createGoalState(){
 
-
+    int rowSize = 4;
+    int colSize = 4;
+	State *state = (State*)malloc(sizeof(State));
+    if(state==NULL)
+    	Warning_Memory_Allocation(); 
+   
+    for(int i = 0; i<rowSize; i++){
+        for(int j = 0; j<colSize; j++){
+            state->Lights[i][j] = false;
+        }
+    }
+    return state;
+ }
 // ==================== WRITE YOUR OPTIONAL FUNCTIONS (IF REQUIRED) ==========================
+ 
