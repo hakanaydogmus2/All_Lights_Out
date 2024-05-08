@@ -35,54 +35,87 @@ State* Create_State()
 //______________________________________________________________________________
 void Print_State(const State *const state)
 {
-    switch(state->city){
-         case  Arad:      printf("Arad"); break;
-         case  Bucharest: printf("Bucharest"); break;
-         case  Craiova:   printf("Craiova"); break;
-         case  Drobeta:   printf("Drobeta"); break;
-         case  Eforie:    printf("Eforie"); break;
-         case  Fagaras:   printf("Fagaras"); break;
-         case  Giurgiu:   printf("Giurgiu"); break;
-         case  Hirsova:   printf("Hirsova"); break;
-         case  Iasi:      printf("Iasi"); break;
-         case  Lugoj:     printf("Lugoj"); break;
-         case  Mehadia:   printf("Mehadia"); break;
-         case  Neamt:     printf("Neamt"); break;
-         case  Oradea:    printf("Oradea"); break;
-         case  Pitesti:   printf("Pitesti"); break;
-         case  Rimnicu_Vilcea: printf("Rimnicu Vilcea"); break;
-         case  Sibiu:     printf("Sibiu"); break;
-         case  Timisoara: printf("Timisoara"); break;
-         case  Urziceni:  printf("Urziceni"); break;
-         case  Vaslui:    printf("Vaslui"); break;
-         case  Zerind:    printf("Zerind"); break;
-    }  
+    for(int i = 0; i<4; i++){
+        for(int j = 0; j<4; j++){
+            printf("%d ", state->Lights[i][j]);
+        }
+        printf("\n");
+    }
 }
 
+void ApplyAction(const enum ACTIONS action, State *state){
+    switch (action){
+        case Toggle_0_0:
+            StateValueChanger(state, 0, 0);
+            break;
+        case Toggle_0_1:
+            StateValueChanger(state, 0, 1);
+            break;
+        case Toggle_0_2:
+            StateValueChanger(state, 0, 2);
+            break;
+        case Toggle_0_3:
+            StateValueChanger(state, 0, 3);
+            break;
+        case Toggle_1_0:
+            StateValueChanger(state, 1, 0);
+            break;
+        case Toggle_1_1:    
+            StateValueChanger(state, 1, 1);
+            break;
+        case Toggle_1_2:
+            StateValueChanger(state, 1, 2);
+            break;
+        case Toggle_1_3:
+            StateValueChanger(state, 1, 3);
+            break;
+        case Toggle_2_0:
+            StateValueChanger(state, 2, 0);
+            break;
+        case Toggle_2_1:
+            StateValueChanger(state, 2, 1);
+            break;
+        case Toggle_2_2:
+            StateValueChanger(state, 2, 2);
+            break;
+        case Toggle_2_3:
+            StateValueChanger(state, 2, 3);
+            break;
+        case Toggle_3_0:
+            StateValueChanger(state, 3, 0);
+            break;
+        case Toggle_3_1:
+            StateValueChanger(state, 3, 1);
+            break;
+        case Toggle_3_2: 
+            StateValueChanger(state, 3, 2);
+            break;
+        case Toggle_3_3:
+            StateValueChanger(state, 3, 3);
+            break;
+        
+    }
+}
 //______________________________________________________________________________
 void Print_Action(const enum ACTIONS action)
 {
    switch(action){
-         case  Go_Arad:      printf("Go_Arad"); break;
-         case  Go_Bucharest: printf("Go_Bucharest"); break;
-         case  Go_Craiova:   printf("Go_Craiova"); break;
-         case  Go_Drobeta:   printf("Go_Drobeta"); break;
-         case  Go_Eforie:    printf("Go_Eforie"); break;
-         case  Go_Fagaras:   printf("Go_Fagaras"); break;
-         case  Go_Giurgiu:   printf("Go_Giurgiu"); break;
-         case  Go_Hirsova:   printf("Go_Hirsova"); break;
-         case  Go_Iasi:      printf("Go_Iasi"); break;
-         case  Go_Lugoj:     printf("Go_Lugoj"); break;
-         case  Go_Mehadia:   printf("Go_Mehadia"); break;
-         case  Go_Neamt:     printf("Go_Neamt"); break;
-         case  Go_Oradea:    printf("Go_Oradea"); break;
-         case  Go_Pitesti:   printf("Go_Pitesti"); break;
-         case  Go_Rimnicu_Vilcea: printf("Go_Rimnicu_Vilcea"); break;
-         case  Go_Sibiu:     printf("Go_Sibiu"); break;
-         case  Go_Timisoara: printf("Go_Timisoara"); break;
-         case  Go_Urziceni:  printf("Go_Urziceni"); break;
-         case  Go_Vaslui:    printf("Go_Vaslui"); break;
-         case  Go_Zerind:    printf("Go_Zerind"); break;
+        case Toggle_0_0: printf("Toggle_0_0"); break;
+        case Toggle_0_1: printf("Toggle_0_1"); break;
+        case Toggle_0_2: printf("Toggle_0_2"); break;
+        case Toggle_0_3: printf("Toggle_0_3"); break;
+        case Toggle_1_0: printf("Toggle_1_0"); break;
+        case Toggle_1_1: printf("Toggle_1_1"); break;
+        case Toggle_1_2: printf("Toggle_1_2"); break;
+        case Toggle_1_3: printf("Toggle_1_3"); break;
+        case Toggle_2_0: printf("Toggle_2_0"); break;
+        case Toggle_2_1: printf("Toggle_2_1"); break;
+        case Toggle_2_2: printf("Toggle_2_2"); break;
+        case Toggle_2_3: printf("Toggle_2_3"); break;
+        case Toggle_3_0: printf("Toggle_3_0"); break;
+        case Toggle_3_1: printf("Toggle_3_1"); break;
+        case Toggle_3_2: printf("Toggle_3_2"); break;
+        case Toggle_3_3: printf("Toggle_3_3"); break; 
     }        
 }
 
@@ -90,38 +123,24 @@ void Print_Action(const enum ACTIONS action)
 int Result(const State *const parent_state, const enum ACTIONS action, Transition_Model *const trans_model)
 {
     State new_state;
-	const int PATH_COSTS[CITY_NUMBER][ACTIONS_NUMBER] = 
-        {   {  0,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1, 140, 118,  -1,  -1,  75},  // Arad
-            { -1,   0,  -1,  -1,  -1, 211,  90,  -1,  -1,  -1,  -1,  -1,  -1, 101,  -1,  -1,  -1,  85,  -1,  -1},  // Bucharest
-			{ -1,  -1,   0, 120,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1, 138, 146,  -1,  -1,  -1,  -1,  -1},  // Craiova
-			{ -1,  -1, 120,   0,  -1,  -1,  -1,  -1,  -1,  -1,  75,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1},  // Drobeta
-			{ -1,  -1,  -1,  -1,   0,  -1,  -1,  86,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1},  // Eforie
-			{ -1, 211,  -1,  -1,  -1,   0,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  99,  -1,  -1,  -1,  -1},  // F 
-			{ -1,  90,  -1,  -1,  -1,  -1,   0,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1},  // G
-			{ -1,  -1,  -1,  -1,  86,  -1,  -1,   0,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  98,  -1,  -1},  // H
-			{ -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,   0,  -1,  -1,  87,  -1,  -1,  -1,  -1,  -1,  -1,  92,  -1},  // I
-			{ -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,   0,  70,  -1,  -1,  -1,  -1,  -1, 111,  -1,  -1,  -1},  // L 
-			{ -1,  -1,  -1,  75,  -1,  -1,  -1,  -1,  -1,  70,   0,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1},  // M
-			{ -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  87,  -1,  -1,   0,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1},  // N
-			{ -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,   0,  -1,  -1, 151,  -1,  -1,  -1,  71},  // O
-			{ -1, 101, 138,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,   0,  97,  -1,  -1,  -1,  -1,  -1},  // P
-			{ -1,  -1, 146,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  97,   0,  80,  -1,  -1,  -1,  -1},  // R
-			{140,  -1,  -1,  -1,  -1,  99,  -1,  -1,  -1,  -1,  -1,  -1, 151,  -1,  80,   0,  -1,  -1,  -1,  -1},  // S
-			{118,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1, 111,  -1,  -1,  -1,  -1,  -1,  -1,   0,  -1,  -1,  -1},  // T
-			{ -1,  85,  -1,  -1,  -1,  -1,  -1,  98,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,   0, 142,  -1},  // U
-			{ -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  92,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1, 142,   0,  -1},  // V
-			{ 75,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  71,  -1,  -1,  -1,  -1,  -1,  -1,   0}   // Z
-		};
+	ApplyAction(action, parent_state);
+    new_state = *parent_state;
 	     //    A    B    C    D    E    F    G    H    I    L    M    N    O    P    R    S    T    U    V    Z       
 	 
-         if(PATH_COSTS[parent_state->city][action]<=0) 
+         /*if(PATH_COSTS[parent_state->Lights[action]<=0) 
               return FALSE;
          else{
               new_state.city = action;
               trans_model->new_state = new_state;
               trans_model->step_cost = PATH_COSTS[parent_state->city][action]; 
          }     
-         return TRUE;                                               
+         return TRUE; */
+    trans_model->new_state = new_state;
+    trans_model->step_cost = 1;
+
+    
+
+                                                     
 }
 
 //______________________________________________________________________________
@@ -162,5 +181,13 @@ int Goal_Test(const State *const state, const State *const goal_state)
 	else
 		return 1;
 }
+
+void StateValueChanger(State *state, int i, int j){
+    if(state->Lights[i][j] == 0)
+        state->Lights[i][j] = 1;
+    else
+        state->Lights[i][j] = 0;
+}
+
 
 // ==================== WRITE YOUR OPTIONAL FUNCTIONS (IF REQUIRED) ==========================
