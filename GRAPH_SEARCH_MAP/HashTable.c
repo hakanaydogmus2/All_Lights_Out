@@ -11,20 +11,25 @@
 
 // =========  YOUR COMPULSORY (BUT SPECIFIC TO THE PROBLEM) FUNCTIONS =======
 
-//___________________ Create unique char key for each state______________________
+//___________________ Create unique char key for each state______________________  her state için eşsiz bir hashkey oluşturmalısın ki o arama algoritmasında karşılaştırma yaparken kullanılabilsin.
 void Generate_HashTable_Key(const State *const state, unsigned char* key) 
 {
-    int numLightsOn = 16 - CountPassiveLights(state);
-	
-    int hasKey = numLightsOn;
-    int i = 0;
+    int rowSize = 4;
+    int colSize = 4;
+    int k = 0;
     
-    do{
-        key[i++] = hasKey % 10 + '0';
-        hasKey /= 10;
-    }while(hasKey > 0 && i < MAX_KEY_SIZE);
     
-	if(i>MAX_KEY_SIZE){
+    for(int i = 0; i<rowSize; i++){
+        for(int j = 0; j<colSize; j++){
+            key[k] = state->Lights[i][j] + '0';
+            k++;
+        }
+    }
+    key[k] = '\0';
+   
+
+    
+	if(k>MAX_KEY_SIZE){
 		printf("ERROR: MAX_KEY_SIZE is exceeded in Generate_HashTable_Key. \n");
 		exit(-1);
 	}   

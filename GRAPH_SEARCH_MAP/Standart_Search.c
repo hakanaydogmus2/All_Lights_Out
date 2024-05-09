@@ -518,14 +518,14 @@ int Frontier_update(Queue *const frontier, const State *const state)
 void Print_Node(const Node *const node)
 {
 	if(node!=NULL){
-		printf("NODE(");
+		printf("NODE(\n");
 		Print_State(&(node->state));
 		if(node->parent){
 			printf(", parent:\n");
 			Print_State(&(node->parent->state));
 			printf(", action:");
 			Print_Action(node->action);	
-			printf(", path_cost: %.1f )", node->path_cost);	
+			printf(", path_cost: %.1f )\n", node->path_cost);	
 		}
 		else
 			printf(":root)");
