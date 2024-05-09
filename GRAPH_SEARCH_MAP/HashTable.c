@@ -14,16 +14,16 @@
 //___________________ Create unique char key for each state______________________
 void Generate_HashTable_Key(const State *const state, unsigned char* key) 
 {
-    int numLightsOn = CountPassiveLights(state);
+    int numLightsOn = 16 - CountPassiveLights(state);
 	
     int hasKey = numLightsOn;
     int i = 0;
-    /*
+    
     do{
         key[i++] = hasKey % 10 + '0';
         hasKey /= 10;
     }while(hasKey > 0 && i < MAX_KEY_SIZE);
-    */
+    
 	if(i>MAX_KEY_SIZE){
 		printf("ERROR: MAX_KEY_SIZE is exceeded in Generate_HashTable_Key. \n");
 		exit(-1);

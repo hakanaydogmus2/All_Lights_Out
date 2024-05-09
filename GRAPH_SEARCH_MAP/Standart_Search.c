@@ -314,7 +314,7 @@ Node* Pop(Queue **frontier)
 	 	free(temp_queue);
 	} 
 	 
-	printf("\nPOP: ");
+	printf("\nPOP:\n ");
     Print_Node(node);
     printf("\n");
 
@@ -464,7 +464,7 @@ void Print_Frontier(Queue *const frontier)
 {
 	Queue *temp_queue; 
 	
-	printf("\nQUEUE: [ ");
+	printf("\nQUEUE:\n [ ");
 	for(temp_queue = frontier; temp_queue!= NULL; temp_queue = temp_queue->next){
 		Print_Node(temp_queue->node);
 		if(temp_queue->next!= NULL)
@@ -521,7 +521,7 @@ void Print_Node(const Node *const node)
 		printf("NODE(");
 		Print_State(&(node->state));
 		if(node->parent){
-			printf(", parent:");
+			printf(", parent:\n");
 			Print_State(&(node->parent->state));
 			printf(", action:");
 			Print_Action(node->action);	

@@ -11,6 +11,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
+#include <stdbool.h>
 
 
 //______________________________________________________________________________
@@ -20,12 +21,23 @@ State* Create_State()
 	State *state = (State*)malloc(sizeof(State));
     if(state==NULL)
     	Warning_Memory_Allocation(); 
-   
-    for(int i = 0; i<4; i++){
-        for(int j = 0; j<4; j++){
-            state->Lights[i][j] = rand() % 2;
+    
+    int rowSize = 4;
+    int colSize = 4;
+
+    bool lights[4][4] = {{1, 1, 0, 0},
+                        {1, 0, 0, 0},
+                        {0, 0, 0, 0},
+                        {0, 0, 0, 0}};
+    
+    for(int i = 0; i<rowSize; i++){
+        for(int j = 0; j<colSize; j++){
+            //state->Lights[i][j] = rand() % 2;
+            //state->Lights[i][j] = false;
+            state->Lights[i][j] = lights[i][j];
         }
     }
+    
     printf("Initial State: \n");
     Print_State(state);
    	       
@@ -145,16 +157,9 @@ int Result(const State *const parent_state, const enum ACTIONS action, Transitio
 }
 
 //______________________________________________________________________________
-float Compute_Heuristic_Function(const State *const state, const State *const goal)
+int Compute_Heuristic_Function(const State *const state, const State *const goal)
 {
-    float count = 0.0;
-    for(int i = 0; i<4; i++){
-        for(int j = 0; j<4; j++){
-            if(state->Lights[i][j] != goal->Lights[i][j]){
-                count++;
-            }
-        }
-    }
+    int count = CountPassiveLights(state);
     return count;
 
       /*

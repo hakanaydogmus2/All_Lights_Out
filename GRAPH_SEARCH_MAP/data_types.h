@@ -40,7 +40,7 @@ enum ACTIONS // All possible actions
 typedef struct State  
 {
     Grid Lights; // The state of the grid
-    float h_n;   // Heuristic function
+    int h_n;   // Heuristic function
       
 }State;
 
