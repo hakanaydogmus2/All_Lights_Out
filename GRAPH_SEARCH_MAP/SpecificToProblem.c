@@ -25,10 +25,10 @@ State* Create_State()
     int rowSize = 4;
     int colSize = 4;
 
-    bool lights[4][4] = {{1, 1, 0, 0},
-                        {1, 0, 1, 0},
-                        {0, 1, 1, 1},
-                        {0, 0, 1, 0}};
+    bool lights[4][4] = {{1, 1, 1, 1},
+                        {1, 0, 0, 1},
+                        {0, 0, 1, 0},
+                        {0, 1, 1, 1}};
     
     for(int i = 0; i<rowSize; i++){
         for(int j = 0; j<colSize; j++){
@@ -136,8 +136,21 @@ int Result(const State *const parent_state, const enum ACTIONS action, Transitio
 {
     State new_state;
     State temp_state = *parent_state;
+    State parState = *parent_state;
 	ApplyAction(action, &temp_state);
-    new_state = temp_state;
+    new_state = temp_state; 
+    //new_state = temp_state;
+
+    //trans_model->new_state = new_state;
+    //trans_model->step_cost = 1; 
+    
+    
+    int pathCost = CountActiveLights(&temp_state) - CountActiveLights(&parState);
+    trans_model->step_cost = pathCost; 
+    trans_model->new_state = new_state;
+    return 1;
+    
+    //new_state = temp_state;
 	     //    A    B    C    D    E    F    G    H    I    L    M    N    O    P    R    S    T    U    V    Z       
 	           
          /*if(PATH_COSTS[parent_state->Lights[action]<=0) 
@@ -148,10 +161,10 @@ int Result(const State *const parent_state, const enum ACTIONS action, Transitio
               trans_model->step_cost = PATH_COSTS[parent_state->city][action]; 
          }     
          return TRUE; */
-    trans_model->new_state = new_state;
-    trans_model->step_cost = 1;
+    
+    //trans_model->step_cost = 1;
 
-    return 1;
+    
 
                                                      
 }
@@ -159,8 +172,9 @@ int Result(const State *const parent_state, const enum ACTIONS action, Transitio
 //______________________________________________________________________________
 int Compute_Heuristic_Function(const State *const state, const State *const goal)
 {
-    int count = CountPassiveLights(state);
-    return count;
+    int state_h_f = CountPassiveLights(state);
+    int goal_hf = CountPassiveLights(goal);
+    return goal_hf- state_h_f;
    
 }
 
@@ -213,9 +227,27 @@ void StateValueChanger(State *state, int i, int j){
 
  int CountPassiveLights(const State *const state){
      int count = 0;
-     for(int i = 0; i<4; i++){
-        for(int j = 0; j<4; j++){
+     int rowSize = 4;
+     int colSize = 4;
+     
+     for(int i = 0; i<rowSize; i++){
+        for(int j = 0; j<colSize; j++){
             if(state->Lights[i][j] == 0){
+                count++;
+            }
+        }
+    }
+    return count;
+ }
+
+ int CountActiveLights(const State *const state){
+     int count = 0;
+     int rowSize = 4;
+     int colSize = 4;
+     
+     for(int i = 0; i<rowSize; i++){
+        for(int j = 0; j<colSize; j++){
+            if(state->Lights[i][j] == 1){
                 count++;
             }
         }
